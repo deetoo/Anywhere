@@ -94,8 +94,8 @@ class osDetection::centos::six {
 # install these packages if not already on the server.
 $packages = [ 'nmap',  'wget', 'yum-utils' ]
   package {
-      $packages:
-                  ensure =>  "installed"
+  $packages:
+  ensure =>  "installed"
   }
 
 include ::pushLicense
@@ -104,15 +104,15 @@ include ::portCheck
 # Run the network/port script on the server.
 exec  { '/tmp/network.sh':
     command => '/tmp/network.sh',
-        path =>    ['/bin', '/usr/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
+    path =>    ['/bin', '/usr/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
   }
 }
 
 # Ubuntu
 class osDetection::ubuntu::xenial {
     Exec { 
-      'get-agent' : command =>  '/usr/bin/wget https://get.core.armor.com/latest/armor-agent.deb',
-	path	=> ['/usr/bin'],
+	'get-agent' : command =>  '/usr/bin/wget https://get.core.armor.com/latest/armor-agent.deb',
+			path  => ['/usr/bin'],
   }
 
 # install these packages if not already on the server.
