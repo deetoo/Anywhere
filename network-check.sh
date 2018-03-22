@@ -20,7 +20,7 @@ if ! which nmap > /dev/null
  
 then
  
-  echo "$(tput setaf 1)nmap is not installed. Stoping connectivity check.$(tput sgr0)"
+  echo "$(/usr/bin/tput setaf 1)nmap is not installed. Stoping connectivity check.$(/usr/bin/tput sgr0)"
  
   exit 1
  
@@ -46,7 +46,17 @@ else
   done
 
 # we assume all ports and ip's were available, install the agent.
-rpm -Uvh /tmp/armor-agent.rpm
 
-/opt/armor/armor register --license=`cat /tmp/LICENSE.file` 
+# handle RHEL and CentOS
+if [ -f /etc/redhat-release ]
+	then
+		rpm -Uvh /tmp/armor-agent.rpm
+		/opt/armor/armor register --license=`cat /tmp/LICENSE.file`
+	elif [ -f /etc/debian_version ]
+		then
+			/usr/bin/dpkg --install /tmp/armor-agent.deb
+			/opt/armor/armor register --license=`cat /tmp/LICENSE.file`
+		else
+			echo "Unsupported OS, exiting."
+	fi
 fi
