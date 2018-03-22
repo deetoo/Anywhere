@@ -1,3 +1,4 @@
+# lifted a lot of this from Paul Bryant, he is a rockstar.
 #!/bin/bash
  
 ip=( "146.88.106.210 -p 443"
