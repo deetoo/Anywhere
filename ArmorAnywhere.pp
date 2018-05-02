@@ -11,7 +11,18 @@ file { "/tmp/LICENSE.file":
 # identify Linux Distro, and version.
 class osDetection {
 case $::operatingsystem {
+    'Amazon': {
+    case $::operatingsystemmajrelease {
 
+    '2': {
+    include ::osDetection::amazon::two
+    }
+
+    default: {
+    fail "Unsupported Amazon Linux version.. '{{::operatingsystemmajrelease}' in 'osDetection' module."
+        }
+    }
+}
     'Ubuntu': {
     case $::lsbdistcodename {
     
@@ -51,8 +62,21 @@ case $::operatingsystem {
  }
 }
 
-# RedHat/CentOS
+# Amazon
+class osDetection::amazon::two {
+    Exec { 'Get-Agent':
+    path    => ['/bin:/usr/bin:/usr/sbin'],
+    command =>  'wget https://get.core.armor.com/latest/armor-agent.rpm -O /tmp/armor-agent.rpm'
+    }
+# install these packages if not already there.
+$packages = [ 'nmap', 'curl', 'wget', 'yum-utils' ]
+    packages:
+                ensure => "installed"
+    }
+include ::pushLicense
+}
 
+# RedHat/CentOS
 class osDetection::centos::seven {
   Exec { 'Get-Agent':
   path    => ['/bin:/usr/bin:/usr/sbin'],
