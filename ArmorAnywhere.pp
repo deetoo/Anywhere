@@ -1,12 +1,3 @@
-# First, verify the needed IP's and ports can be connected to from the server.
-class portCheck {
-file { "/tmp/network.sh":
-  mode   => "0755",
-  owner  => "root",
-  group  => "root",
-  source =>  'puppet:///modules/agent/network-check.sh',
-  }
-}
 
 # Send the Anywhere license file, customer needs to add their code to this file.
 class pushLicense {
@@ -76,15 +67,8 @@ $packages = [ 'nmap', 'curl', 'wget', 'yum-utils' ]
   }
 
 include ::pushLicense
-include ::portCheck
 
-# Run the network/port script on the server.
-exec  { '/tmp/network.sh':
-    command => '/tmp/network.sh',
-      path =>    ['/bin', '/usr/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
-  }
 }
-
 class osDetection::centos::six {
     Exec { 'Get-Agent':
   path    => ['/bin:/usr/bin:/usr/sbin'],
@@ -99,13 +83,7 @@ $packages = [ 'nmap',  'wget', 'yum-utils' ]
   }
 
 include ::pushLicense
-include ::portCheck
 
-# Run the network/port script on the server.
-exec  { '/tmp/network.sh':
-    command => '/tmp/network.sh',
-    path =>    ['/bin', '/usr/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
-  }
 }
 
 # Ubuntu
@@ -123,13 +101,6 @@ $packages = [ 'nmap',  'wget' ]
   }
 
 include ::pushLicense
-include ::portCheck
-
-# Run the network/port script on the server.
-exec  { '/tmp/network.sh':
-    command => '/tmp/network.sh',
-    path    =>   ['/bin', '/usr/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
-  }
 
 }
 
@@ -148,13 +119,7 @@ $packages = [ 'nmap',  'wget' ]
   }
 
 include ::pushLicense
-include ::portCheck
 
-# Run the network/port script on the server.
-exec  { '/tmp/network.sh':
-    command => '/tmp/network.sh',
-        path =>    ['/bin', '/usr/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
-  }
 }
 
 class osDetection::ubuntu::precise {
@@ -172,13 +137,7 @@ $packages = [ 'nmap',  'wget' ]
   }
 
 include ::pushLicense
-include ::portCheck
 
-# Run the network/port script on the server.
-exec  { '/tmp/network.sh':
-    command => '/tmp/network.sh',
-      path =>    ['/bin', '/usr/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
-  }
-}
 
 include ::osDetection
+
