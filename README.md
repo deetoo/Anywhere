@@ -1,5 +1,8 @@
 # Armor Anywhere Puppet manifest
 
+*Work on this project is ended as of 6 July, 2018* 
+
+
 This manifest is a work in progress. (read: very very ALPHA!)
 
 ### what works
